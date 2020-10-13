@@ -29,7 +29,8 @@ end
 get '/' do
   HOOK_URL = "https://covid.littlefox.es/webhook"
   bot = Telegram::Bot::Api.new(ENV['TELEGRAM_TOKEN'])
-  bot.set_webhook(url: HOOK_URL)
+  # bot.set_webhook(url: HOOK_URL)
+  bot.set_my_commands(commands: [ { command: 'bet', description: 'Bet today number of new cases'}, { command: 'result', description: 'Announce today result' }])
 end
 
 # r = api.setWebhook("https://covid.littlefox.es/webhook").to_json
