@@ -1,0 +1,12 @@
+.env
+
+*.DS_Store
+
+*.sqlite3
+
+.env
+.env.local
+.env.production
+*.log
+
+*.p8
