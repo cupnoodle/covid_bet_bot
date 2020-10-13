@@ -30,6 +30,11 @@ namespace :deploy do
   after 'deploy:updated', 'deploy:migrate'
 end
 
+set :bundle_flags, '--deployment'
+
+# use sudo to restart passenger, as passenger is started by root, we need sudo permission to restart it
+set :passenger_restart_with_sudo, true
+
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
