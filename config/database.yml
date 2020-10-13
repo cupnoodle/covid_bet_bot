@@ -1,0 +1,19 @@
+default: &default
+  adapter:  sqlite3
+  database: covidpoll_development.sqlite3
+
+development:
+  <<: *default
+
+production:
+  adapter: postgresql
+  encoding: utf8
+  pool:     5
+  host:     localhost
+  database: <%= ENV['DATABASE_NAME'] %>
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+
+  # if you are using Heroku, remove database:, username: and password:, then add 
+  # url: <%= ENV['DATABASE_URL'] %>
+  

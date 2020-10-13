@@ -15,7 +15,7 @@ gem 'rake'
 # gem 'sentry-raven'
 
 gem 'sinatra'
-gem 'telegramAPI'
+gem 'telegram-bot-ruby'
 gem 'sinatra-activerecord'
 gem 'sinatra-contrib'
 
