@@ -8,7 +8,7 @@
 # server "db.example.com", user: "deploy", roles: %w{db}
 
 
-server '178.128.124.104', user: 'soulchild', roles: %w{app db web}
+server '167.99.73.209', user: 'soulchild', roles: %w{app db web}
 
 set :rack_env, 'production'
 
