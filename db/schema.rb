@@ -10,14 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_13_180527) do
+ActiveRecord::Schema.define(version: 2020_10_14_082328) do
+
+  create_table "polls", force: :cascade do |t|
+    t.integer "correct_answer"
+    t.boolean "ended", default: false
+    t.integer "chat_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "users", force: :cascade do |t|
-    t.string "telegram_id"
+    t.integer "telegram_id"
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["telegram_id"], name: "index_users_on_telegram_id", unique: true
+  end
+
+  create_table "votes", force: :cascade do |t|
+    t.integer "answer"
+    t.integer "poll_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["poll_id"], name: "index_votes_on_poll_id"
+    t.index ["user_id"], name: "index_votes_on_user_id"
   end
 
 end
