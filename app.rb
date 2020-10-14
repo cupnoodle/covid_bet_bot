@@ -57,9 +57,9 @@ post "/webhook" do
     else
       vote = Vote.where(poll_id: poll.id, user_id: user.id).first_or_create.update(answer: num)
 
-      bot.send_message(chat_id: chat_id, text: "#{user.name} have voted #{num}")
+      bot.send_message(chat_id: chat_id, text: "#{user.name} have bet #{num} 🤑")
 
-      list = "Current votes : "
+      list = "Current bets : "
       votes = Vote.where(poll_id: poll.id).order(answer: :desc)
       votes.each do |v|
         list += "\n #{v.user.name} = #{v.answer}"
@@ -76,7 +76,7 @@ post "/webhook" do
     if poll.nil?
       bot.send_message(chat_id: chat_id, text: "No active poll, please place bet with /bet 123 to begin poll")
     else
-      list = "Current votes : "
+      list = "Current bets : "
       votes = Vote.where(poll_id: poll.id).order(answer: :desc)
       votes.each do |v|
         list += "\n #{v.user.name} = #{v.answer}"
@@ -92,11 +92,35 @@ post "/webhook" do
 
     num = text.split(' ')[1]
 
+    if num.to_i <= 0
+      bot.send_message(chat_id: chat_id, text: "Please specify positive integer for answer")
+      # Return an empty json, to say "ok" to Telegram
+      return "{}"
+    end
+
     if poll.nil?
       bot.send_message(chat_id: chat_id, text: "No active poll, please place bet with /bet 123 to begin poll")
     else
-      
-      bot.send_message(chat_id: chat_id, text: "420 smoke weed")
+      votes_array = []
+      poll.votes.each do |v|
+        votes_array << { name: v.user.name, answer: v.answer, distance: (v.answer - num.to_i).abs }
+      end
+
+      votes_array.sort_by! { |va| va[:distance] }
+
+      shortest_distance = votes_array[0][:distance]
+
+      winners = votes_array.select { |va| va[:distance] == shortest_distance }
+
+      msg = "🎉 Winner: "
+      winners.each do |w|
+        msg += "\n #{w[:name]} bet #{w[:answer]}"
+      end
+
+      msg += "\n Actual new cases today: #{num.to_i}"
+
+      poll.update(correct_answer: num.to_i, ended: true)
+      bot.send_message(chat_id: chat_id, text: msg)
     end
   end
 
