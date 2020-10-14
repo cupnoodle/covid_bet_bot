@@ -104,6 +104,7 @@ post "/webhook" do
 
     if poll.nil?
       bot.send_message(chat_id: chat_id, text: "No active poll, please place bet with /bet 123 to begin poll")
+      return '{}'
     else
       votes_array = []
       poll.votes.each do |v|
