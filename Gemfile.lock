@@ -86,6 +86,8 @@ GEM
       unicode-display_width (>= 1.4.0, < 1.7)
     ruby-progressbar (1.10.1)
     ruby2_keywords (0.0.2)
+    sentry-raven (3.1.1)
+      faraday (>= 1.0)
     sinatra (2.1.0)
       mustermann (~> 1.0)
       rack (~> 2.2)
@@ -139,6 +141,7 @@ DEPENDENCIES
   rack-contrib
   rake
   rubocop (~> 0.78.0)
+  sentry-raven
   sinatra
   sinatra-activerecord
   sinatra-contrib

@@ -12,7 +12,7 @@ gem 'dotenv'
 # gem 'jwt'
 gem 'rack-contrib'
 gem 'rake'
-# gem 'sentry-raven'
+gem 'sentry-raven'
 
 gem 'sinatra'
 gem 'telegram-bot-ruby'

@@ -4,13 +4,13 @@
 require 'dotenv'
 Dotenv.load('.env', '.env.production')
 
-# require 'raven'
+require 'raven'
 
-# Raven.configure do |config|
-#   config.dsn = ENV['SENTRY_DSN']
-# end
+Raven.configure do |config|
+  config.dsn = ENV['SENTRY_DSN']
+end
 
-# use Raven::Rack
+use Raven::Rack
 
 root_dir = File.dirname(__FILE__)
 app_file = File.join(root_dir, 'app.rb')
