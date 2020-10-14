@@ -45,7 +45,10 @@ post "/webhook" do
 
   text = data[message_key]['text']
 
-  p('text from ' + from_name)
+  if text.nil?
+    bot.send_message(chat_id: chat_id, text: "This bot can't be used in secret group")
+    return "{}"
+  end
 
   if text.start_with?('/bet')
     num = text.split(' ')[1]
@@ -75,6 +78,7 @@ post "/webhook" do
 
     if poll.nil?
       bot.send_message(chat_id: chat_id, text: "No active poll, please place bet with /bet 123 to begin poll")
+      return '{}'
     else
       list = "Current bets : "
       votes = Vote.where(poll_id: poll.id).order(answer: :desc)
@@ -129,15 +133,14 @@ post "/webhook" do
 end
 
 get '/webhook' do
-  puts "params is "
-  puts params
   'wat'
 end
 
 get '/setup' do
-  HOOK_URL = "https://9db9696b4aca.ngrok.io/webhook"
+  HOOK_URL = "https://covid.littlefox.es/webhook"
   bot = Telegram::Bot::Api.new(ENV['TELEGRAM_TOKEN'])
   bot.set_webhook(url: HOOK_URL)
+  'webhook setup-ed'
 end
 
 get '/' do
