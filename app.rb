@@ -58,7 +58,10 @@ post "/webhook" do
       'If only I can get a team...',
       'If only I can get a big project...',
       'How lah like that',
-      'These investors dont believe in me, how?'
+      'These investors dont believe in me, how?',
+      'I should join corporation ...',
+      "I'm now streaming on Twitch! Playing PLAYERUNKNOWN'S BATTLEGROUNDS",
+      'I can use it to my advantage.'
     ]
 
     bot.send_message(chat_id: chat_id, text: quotes.sample)
@@ -74,10 +77,13 @@ post "/webhook" do
 
       list = "Current bets : "
       votes = Vote.where(poll_id: poll.id).order(answer: :desc)
+      total = 0
       votes.each do |v|
         list += "\n #{v.user.name} = #{v.answer}"
+        total += v.answer
       end
 
+      list += "\n\n Average: #{ total / votes.count }"
       bot.send_message(chat_id: chat_id, text: list)
 
       return '{}'
@@ -94,10 +100,14 @@ post "/webhook" do
 
       list = "Current bets : "
       votes = Vote.where(poll_id: poll.id).order(answer: :desc)
+
+      total = 0
       votes.each do |v|
         list += "\n #{v.user.name} = #{v.answer}"
+        total += v.answer
       end
 
+      list += "\n\n Average: #{ total / votes.count }"
       bot.send_message(chat_id: chat_id, text: list)
     end
   end
@@ -112,10 +122,14 @@ post "/webhook" do
     else
       list = "Current bets : "
       votes = Vote.where(poll_id: poll.id).order(answer: :desc)
+
+      total = 0
       votes.each do |v|
         list += "\n #{v.user.name} = #{v.answer}"
+        total += v.answer
       end
 
+      list += "\n\n Average: #{ total / votes.count }"
       bot.send_message(chat_id: chat_id, text: list)
     end
   end
