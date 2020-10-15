@@ -91,7 +91,7 @@ post "/webhook" do
 
       median = votes.map(&:answer).median
 
-      list += "\n\n Average: #{ total / votes.count }"
+      list += "\n\n Mean: #{ total / votes.count }"
       list += "\n Median: #{ median }"
       bot.send_message(chat_id: chat_id, text: list)
 
@@ -118,7 +118,7 @@ post "/webhook" do
 
       median = votes.map(&:answer).median
 
-      list += "\n\n Average: #{ total / votes.count }"
+      list += "\n\n Mean: #{ total / votes.count }"
       list += "\n Median: #{ median }"
       bot.send_message(chat_id: chat_id, text: list)
     end
@@ -142,8 +142,8 @@ post "/webhook" do
       end
 
       median = votes.map(&:answer).median
-      
-      list += "\n\n Average: #{ total / votes.count }"
+
+      list += "\n\n Mean: #{ total / votes.count }"
       list += "\n Median: #{ median }"
       bot.send_message(chat_id: chat_id, text: list)
     end
