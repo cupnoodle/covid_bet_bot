@@ -53,6 +53,21 @@ post "/webhook" do
   if text.start_with?('/bet')
     num = text.split(' ')[1]
 
+    if num == 'cancel'
+      Vote.where(poll_id: poll.id, user_id: user.id).first&.destroy
+      bot.send_message(chat_id: chat_id, text: "#{user.name} have removed bet 💸")
+
+      list = "Current bets : "
+      votes = Vote.where(poll_id: poll.id).order(answer: :desc)
+      votes.each do |v|
+        list += "\n #{v.user.name} = #{v.answer}"
+      end
+
+      bot.send_message(chat_id: chat_id, text: list)
+      
+      return '{}'
+    end
+
     if num.to_i <= 0
       bot.send_message(chat_id: chat_id, text: "Please specify a positive integer, eg: /bet 123")
     elsif num.to_i > 1_000_000
