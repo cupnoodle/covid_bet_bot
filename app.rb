@@ -7,6 +7,7 @@ require 'json'
 require './models/poll.rb'
 require './models/user.rb'
 require './models/vote.rb'
+require './models/median.rb'
 
 # load environment variables
 require 'dotenv'
@@ -88,7 +89,10 @@ post "/webhook" do
         total += v.answer
       end
 
+      median = votes.map(&:answer).median
+
       list += "\n\n Average: #{ total / votes.count }"
+      list += "\n Median: #{ median }"
       bot.send_message(chat_id: chat_id, text: list)
 
       return '{}'
@@ -112,7 +116,10 @@ post "/webhook" do
         total += v.answer
       end
 
+      median = votes.map(&:answer).median
+
       list += "\n\n Average: #{ total / votes.count }"
+      list += "\n Median: #{ median }"
       bot.send_message(chat_id: chat_id, text: list)
     end
   end
@@ -134,7 +141,10 @@ post "/webhook" do
         total += v.answer
       end
 
+      median = votes.map(&:answer).median
+      
       list += "\n\n Average: #{ total / votes.count }"
+      list += "\n Median: #{ median }"
       bot.send_message(chat_id: chat_id, text: list)
     end
   end
