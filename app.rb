@@ -50,6 +50,21 @@ post "/webhook" do
     return "{}"
   end
 
+  if text.start_with?('/kevin')
+    quotes = [
+      'Yeah man',
+      'Gotta work harder',
+      'Hoping for my next home run',
+      'If only I can get a team...',
+      'If only I can get a big project...',
+      'How lah like that',
+      'These investors dont believe in me, how?'
+    ]
+
+    bot.send_message(chat_id: chat_id, text: quotes.sample)
+    return '{}'
+  end
+
   if text.start_with?('/bet')
     num = text.split(' ')[1]
 
@@ -64,7 +79,7 @@ post "/webhook" do
       end
 
       bot.send_message(chat_id: chat_id, text: list)
-      
+
       return '{}'
     end
 
