@@ -59,7 +59,10 @@ post "/webhook" do
       'If only I can get a big project...',
       'How lah like that',
       'These investors dont believe in me, how?',
-      'I should join corporation ...',
+      'Malaysia client and company too stingy',
+      'Weekly Java study session when',
+      "I'm now streaming on Twitch! Playing PLAYERUNKNOWN'S BATTLEGROUNDS",
+      "I'm now streaming on Twitch! Playing PLAYERUNKNOWN'S BATTLEGROUNDS",
       "I'm now streaming on Twitch! Playing PLAYERUNKNOWN'S BATTLEGROUNDS",
       'I can use it to my advantage.'
     ]
