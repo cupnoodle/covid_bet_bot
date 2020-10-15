@@ -64,7 +64,9 @@ post "/webhook" do
       "I'm now streaming on Twitch! Playing PLAYERUNKNOWN'S BATTLEGROUNDS",
       "I'm now streaming on Twitch! Playing PLAYERUNKNOWN'S BATTLEGROUNDS",
       "I'm now streaming on Twitch! Playing PLAYERUNKNOWN'S BATTLEGROUNDS",
-      'I can use it to my advantage.'
+      'I can use it to my advantage.',
+      'Gonna eat chap fan',
+      'Koh Samui is so nice'
     ]
 
     bot.send_message(chat_id: chat_id, text: quotes.sample)
