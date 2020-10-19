@@ -128,7 +128,7 @@ post "/webhook" do
     chat_id = data[message_key]['chat']['id'].to_i
     poll = Poll.where(chat_id: chat_id, ended: false).first
 
-    if poll.nil?
+    if poll.nil? || poll.votes.count == 0
       bot.send_message(chat_id: chat_id, text: "No active poll, please place bet with /bet 123 to begin poll")
       return '{}'
     else
@@ -161,7 +161,7 @@ post "/webhook" do
       return "{}"
     end
 
-    if poll.nil?
+    if poll.nil? || poll.votes.count == 0
       bot.send_message(chat_id: chat_id, text: "No active poll, please place bet with /bet 123 to begin poll")
       return '{}'
     elsif poll.votes.empty?
@@ -201,7 +201,7 @@ end
 
 get '/setup' do
   HOOK_URL = "https://covid.littlefox.es/webhook"
-  # HOOK_URL = "https://8d314cc99de3.ngrok.io/webhook"
+  # HOOK_URL = "https://0b7512d1b6a1.ngrok.io/webhook"
   bot = Telegram::Bot::Api.new(ENV['TELEGRAM_TOKEN'])
   bot.set_webhook(url: HOOK_URL)
   'webhook setup-ed'
