@@ -15,6 +15,8 @@ Dotenv.load('.env', '.env.production')
 
 token = ENV['TELEGRAM_TOKEN']
 
+Tilt.register Tilt::ERBTemplate, 'html.erb'
+
 post "/webhook" do
   bot = Telegram::Bot::Api.new(ENV['TELEGRAM_TOKEN'])
   status 200
@@ -205,6 +207,28 @@ get '/setup' do
   bot = Telegram::Bot::Api.new(ENV['TELEGRAM_TOKEN'])
   bot.set_webhook(url: HOOK_URL)
   'webhook setup-ed'
+end
+
+get '/stat' do
+  polls = Poll.where('correct_answer > ?', 100).order(id: :desc).limit(10)
+  @dates = polls.map do |poll|
+    poll.updated_at.strftime("%d %b %Y")
+  end
+
+  @answers = polls.map(&:correct_answer)
+  @means = polls.map do |poll|
+
+    vote_count = poll.votes.count
+    vote_count = 1 if vote_count == 0
+
+    poll.votes.map(&:answer).inject(0, :+) / vote_count
+  end
+
+  @medians = polls.map do |poll|
+    poll.votes.map(&:answer).median
+  end
+
+  erb :stat
 end
 
 get '/' do
