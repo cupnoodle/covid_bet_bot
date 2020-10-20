@@ -210,7 +210,7 @@ get '/setup' do
 end
 
 get '/stat' do
-  polls = Poll.where('correct_answer > ?', 100).order(id: :desc).limit(10)
+  polls = Poll.where('correct_answer > ?', 100).where('correct_answer < ?', 10000).order(id: :desc).limit(10)
   @dates = polls.map do |poll|
     poll.updated_at.strftime("%d %b %Y")
   end
