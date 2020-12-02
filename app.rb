@@ -197,7 +197,16 @@ post "/webhook" do
 
   if text.start_with?('/win')
     chat_id = data[message_key]['chat']['id'].to_i
-    bot.send_message(chat_id: chat_id, text: 'WIP, please support my patreon')
+
+    # eg: [ { name: 'Axel', count: 4}, { name: 'Desmond', count: 2} ]
+    wins = Poll.joins(:winner).select('users.name, count(polls.winner_id) as count').group('users.name').map { |c| {name: c.name, count: c.count } }.sort_by { |c| c[:count] }.reverse
+    
+    msg = "🏆 Number of wins (since 3 December 2020)"
+    wins.each do |w|
+      msg += "\n #{w[:name]} has won #{w[:count]} times"
+    end
+
+    bot.send_message(chat_id: chat_id, text: msg)
   end
 
   # Return an empty json, to say "ok" to Telegram
