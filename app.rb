@@ -181,7 +181,7 @@ post "/webhook" do
 
       winners = votes_array.select { |va| va[:distance] == shortest_distance }
 
-      true_winner = winners.sort_by { |w| w.updated_at }.first
+      true_winner = winners.sort_by { |w| w[:updated_at] }.first
 
       msg = "🎉 Winner: "
       winners.each do |w|
