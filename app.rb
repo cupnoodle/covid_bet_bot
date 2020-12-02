@@ -65,11 +65,11 @@ post "/webhook" do
       'Malaysia client and company too stingy',
       'Weekly Java study session when',
       "I'm now streaming on Twitch! Playing PLAYERUNKNOWN'S BATTLEGROUNDS",
-      "I'm now streaming on Twitch! Playing PLAYERUNKNOWN'S BATTLEGROUNDS",
-      "I'm now streaming on Twitch! Playing PLAYERUNKNOWN'S BATTLEGROUNDS",
       'I can use it to my advantage.',
       'Gonna eat chap fan',
-      'Koh Samui is so nice'
+      'Koh Samui is so nice',
+      'When can I have my break',
+      'When can I have my next homerun'
     ]
 
     bot.send_message(chat_id: chat_id, text: quotes.sample)
@@ -172,7 +172,7 @@ post "/webhook" do
     else
       votes_array = []
       poll.votes.each do |v|
-        votes_array << { name: v.user.name, answer: v.answer, distance: (v.answer - num.to_i).abs }
+        votes_array << { winner_id: v.user.id, name: v.user.name, answer: v.answer, distance: (v.answer - num.to_i).abs, updated_at: v.updated_at }
       end
 
       votes_array.sort_by! { |va| va[:distance] }
@@ -181,6 +181,8 @@ post "/webhook" do
 
       winners = votes_array.select { |va| va[:distance] == shortest_distance }
 
+      true_winner = winners.sort_by { |w| w.updated_at }.first
+
       msg = "🎉 Winner: "
       winners.each do |w|
         msg += "\n #{w[:name]} bet #{w[:answer]}"
@@ -188,9 +190,14 @@ post "/webhook" do
 
       msg += "\n Actual new cases today: #{num.to_i}"
 
-      poll.update(correct_answer: num.to_i, ended: true)
+      poll.update(correct_answer: num.to_i, ended: true, winner_id: true_winner.winner_id)
       bot.send_message(chat_id: chat_id, text: msg)
     end
+  end
+
+  if text.start_with?('/win')
+    chat_id = data[message_key]['chat']['id'].to_i
+    bot.send_message(chat_id: chat_id, text: 'WIP, please support my patreon')
   end
 
   # Return an empty json, to say "ok" to Telegram
