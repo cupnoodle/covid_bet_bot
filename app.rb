@@ -255,4 +255,26 @@ get '/' do
   'welp'
 end
 
+get '/backfill' do
+  polls = Poll.where(ended: true, winner_id: nil).where.not(correct_answer: nil)
+  polls.each do |poll|
+    votes_array = []
+    num = poll.correct_answer
+
+    poll.votes.each do |v|
+      votes_array << { winner_id: v.user.id, name: v.user.name, answer: v.answer, distance: (v.answer - num.to_i).abs, updated_at: v.updated_at }
+    end
+
+    votes_array.sort_by! { |va| va[:distance] }
+
+    shortest_distance = votes_array[0][:distance]
+
+    winners = votes_array.select { |va| va[:distance] == shortest_distance }
+
+    true_winner = winners.sort_by { |w| w[:updated_at] }.first
+
+    poll.update(winner_id: true_winner[:winner_id])
+  end
+end
+
 # r = api.setWebhook("https://covid.littlefox.es/webhook").to_json
