@@ -201,7 +201,7 @@ post "/webhook" do
     # eg: [ { name: 'Axel', count: 4}, { name: 'Desmond', count: 2} ]
     wins = Poll.joins(:winner).select('users.name, count(polls.winner_id) as count').group('users.name').map { |c| {name: c.name, count: c.count } }.sort_by { |c| c[:count] }.reverse
     
-    msg = "🏆 Number of wins (since 3 December 2020)"
+    msg = "🏆 Number of wins (till #{Time.now.strftime("%-d %b %Y")})"
     wins.each do |w|
       msg += "\n #{w[:name]} has won #{w[:count]} times"
     end
