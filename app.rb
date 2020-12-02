@@ -190,7 +190,7 @@ post "/webhook" do
 
       msg += "\n Actual new cases today: #{num.to_i}"
 
-      poll.update(correct_answer: num.to_i, ended: true, winner_id: true_winner.winner_id)
+      poll.update(correct_answer: num.to_i, ended: true, winner_id: true_winner[:winner_id])
       bot.send_message(chat_id: chat_id, text: msg)
     end
   end
