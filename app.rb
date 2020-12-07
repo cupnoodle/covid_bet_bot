@@ -199,11 +199,14 @@ post "/webhook" do
     chat_id = data[message_key]['chat']['id'].to_i
 
     # eg: [ { name: 'Axel', count: 4}, { name: 'Desmond', count: 2} ]
-    wins = Poll.joins(:winner).select('users.name, count(polls.winner_id) as count').group('users.name').map { |c| {name: c.name, count: c.count } }.sort_by { |c| c[:count] }.reverse
-    
+    wins = Poll.joins(:winner).where(chat_id: chat_id).select('users.name, count(polls.winner_id) as count').group('users.name').map { |c| {name: c.name, count: c.count } }.sort_by { |c| c[:count] }.reverse
+    votes = Vote.joins(:user, :poll).where("polls.chat_id == ?", chat_id).select('users.name, count(votes.user_id) as count').group('users.name').map{ |c| Hash[c.name, c.count] }.reduce({}, :merge)
+
     msg = "🏆 Number of wins (till #{Time.now.strftime("%-d %b %Y")})"
     wins.each do |w|
-      msg += "\n #{w[:name]} has won #{w[:count]} times"
+      percentage = (w[:count] / votes[w[:name]].to_f).round(4) * 100
+      
+      msg += "\n #{w[:name]} has won #{w[:count]} times, win % = #{percentage}%"
     end
 
     bot.send_message(chat_id: chat_id, text: msg)
