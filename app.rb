@@ -206,7 +206,7 @@ post "/webhook" do
     wins.each do |w|
       percentage = ((w[:count] / votes[w[:name]].to_f) * 100).round(2)
 
-      msg += "\n #{w[:name]} has won #{w[:count]} times, win % = #{percentage}%"
+      msg += "\n #{w[:name]} has won #{w[:count]} times, win rate = #{percentage}%"
     end
 
     bot.send_message(chat_id: chat_id, text: msg)
