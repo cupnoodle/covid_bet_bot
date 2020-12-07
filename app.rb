@@ -204,7 +204,7 @@ post "/webhook" do
 
     msg = "🏆 Number of wins (till #{Time.now.strftime("%-d %b %Y")})"
     wins.each do |w|
-      percentage = (w[:count] / votes[w[:name]].to_f).round(4) * 100
+      percentage = ((w[:count] / votes[w[:name]].to_f) * 100).round(4)
 
       msg += "\n #{w[:name]} has won #{w[:count]} times, win % = #{percentage}%"
     end
