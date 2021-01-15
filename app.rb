@@ -105,13 +105,12 @@ post "/webhook" do
     elsif num.to_i > 1_000_000
       bot.send_message(chat_id: chat_id, text: "Please bet a smaller number, lul")
     else
-
-      vote = Vote.where(poll_id: poll.id, user_id: user.id).first_or_create.update(answer: num)
-
       if Time.now.getlocal('+08:00').hour >= 17
         bot.send_message(chat_id: chat_id, text: "Sorry, you can't bet after 5pm, the timer will reset at 12am")
         return '{}'
       else
+        vote = Vote.where(poll_id: poll.id, user_id: user.id).first_or_create.update(answer: num)
+
         bot.send_message(chat_id: chat_id, text: "#{user.name} have bet #{num} 🤑")
 
         list = "Current bets : "
