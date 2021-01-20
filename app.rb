@@ -17,6 +17,18 @@ token = ENV['TELEGRAM_TOKEN']
 
 Tilt.register Tilt::ERBTemplate, 'html.erb'
 
+post "/soulchildwebhook" do
+  bot = Telegram::Bot::Api.new(ENV['TELEGRAM_SOULCHILD_TOKEN'])
+  status 200
+  # Get Telegram Data
+  request.body.rewind
+  data = JSON.parse(request.body.read)
+  
+  chat_id = data[message_key]['chat']['id'].to_i
+
+  bot.send_message(chat_id: chat_id, text: "chat_id is #{chat_id}")
+end
+
 post "/webhook" do
   bot = Telegram::Bot::Api.new(ENV['TELEGRAM_TOKEN'])
   status 200
@@ -231,6 +243,14 @@ get '/setup' do
   bot = Telegram::Bot::Api.new(ENV['TELEGRAM_TOKEN'])
   bot.set_webhook(url: HOOK_URL)
   'webhook setup-ed'
+end
+
+get '/soulchildsetup' do
+  SHOOK_URL = "https://covid.littlefox.es/soulchildwebhook"
+
+  bot = Telegram::Bot::Api.new(ENV['TELEGRAM_SOULCHILD_TOKEN'])
+  bot.set_webhook(url: SHOOK_URL)
+  'soulchild webhook setup-ed'
 end
 
 get '/stat' do
