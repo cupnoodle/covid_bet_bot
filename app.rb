@@ -24,6 +24,12 @@ post "/soulchildwebhook" do
   request.body.rewind
   data = JSON.parse(request.body.read)
   
+  message_key = 'message'
+
+  if data.key?('edited_message')
+    message_key = 'edited_message'
+  end
+  
   chat_id = data[message_key]['chat']['id'].to_i
 
   bot.send_message(chat_id: chat_id, text: "chat_id is #{chat_id}")
