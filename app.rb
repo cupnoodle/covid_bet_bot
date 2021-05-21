@@ -87,7 +87,10 @@ post "/webhook" do
       'Gonna eat chap fan',
       'Koh Samui is so nice',
       'When can I have my break',
-      'When can I have my next homerun'
+      'When can I have my next homerun',
+      'Early outpatient treatment protocol',
+      'The great reopening',
+      "It's not easy being an indie bootstrapper"
     ]
 
     bot.send_message(chat_id: chat_id, text: quotes.sample)
@@ -123,8 +126,8 @@ post "/webhook" do
     elsif num.to_i > 1_000_000
       bot.send_message(chat_id: chat_id, text: "Please bet a smaller number, lul")
     else
-      if Time.now.getlocal('+08:00').hour >= 13 && Time.now.getlocal('+08:00').hour < 19
-        bot.send_message(chat_id: chat_id, text: "Sorry, you can't bet after 1pm, the timer will reset at 7pm")
+      if Time.now.getlocal('+08:00').hour >= 14 && Time.now.getlocal('+08:00').hour < 19
+        bot.send_message(chat_id: chat_id, text: "Sorry, you can't bet after 2pm, the timer will reset at 7pm")
         return '{}'
       else
         vote = Vote.where(poll_id: poll.id, user_id: user.id).first_or_create.update(answer: num)
