@@ -67,7 +67,7 @@ post "/webhook" do
   text = data[message_key]['text']
 
   if text.nil?
-    bot.send_message(chat_id: chat_id, text: "This bot can't be used in secret group")
+    # bot.send_message(chat_id: chat_id, text: "This bot can't be used in secret group")
     return "{}"
   end
 
