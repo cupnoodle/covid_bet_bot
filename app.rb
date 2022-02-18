@@ -78,10 +78,14 @@ post "/webhook" do
       'Hoping for my next home run',
       'If only I can get a team...',
       'If only I can get a big project...',
+      'Wake up Sheeple!',
+      'Dr. Fauci murdered many Americans',
+      'Vaccine mandate is Tyranny!',
       'How lah like that',
       'These investors dont believe in me, how?',
       'Malaysia client and company too stingy',
       'Weekly Java study session when',
+      'I had to pick up Video editing skills because no Malaysian employers wanna hire me for my IT skills',
       "I'm now streaming on Twitch! Playing PLAYERUNKNOWN'S BATTLEGROUNDS",
       'I can use it to my advantage.',
       'Gonna eat chap fan',
@@ -126,8 +130,8 @@ post "/webhook" do
     elsif num.to_i > 1_000_000
       bot.send_message(chat_id: chat_id, text: "Please bet a smaller number, lul")
     else
-      if Time.now.getlocal('+08:00').hour >= 12 && Time.now.getlocal('+08:00').hour < 16
-        bot.send_message(chat_id: chat_id, text: "Sorry, you can't bet after 12pm, the timer will reset at 4pm")
+      if Time.now.getlocal('+08:00').hour >= 7 && Time.now.getlocal('+08:00').hour < 12
+        bot.send_message(chat_id: chat_id, text: "Sorry, you can't bet after 7am, the timer will reset at 12pm")
         return '{}'
       else
         vote = Vote.where(poll_id: poll.id, user_id: user.id).first_or_create.update(answer: num)
